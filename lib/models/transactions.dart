@@ -1,0 +1,39 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class Transactions {
+  final int id;
+  final int category_id;
+  final double amount;
+  final DateTime? created_at;
+
+  Transactions({
+    required this.id,
+    required this.category_id,
+    required this.amount,
+    required this.created_at,
+  });
+
+  factory Transactions.fromMap(Map<String, dynamic> map) {
+    return Transactions(
+      id: map['id'] ?? '',
+      category_id: map['category_id'],
+      amount: map['amount'],
+      created_at:
+          map['created_at'] != null
+              ? (map['created_at'] as Timestamp).toDate()
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'category_id': category_id,
+      'amount': amount,
+      'created_at':
+          created_at != null
+              ? Timestamp.fromDate(created_at!)
+              : FieldValue.serverTimestamp(),
+    };
+  }
+}
