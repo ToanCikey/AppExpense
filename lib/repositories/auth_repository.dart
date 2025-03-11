@@ -30,7 +30,7 @@ class AuthRepository {
   Future<User?> signInWithGoogle() async {
     User? user = await _auth.signInWithGoogle();
     if (user != null) {
-      Users? existingUser = await _userRepo.getUser();
+      Users? existingUser = await _userRepo.getUser(user.uid);
       if (existingUser == null) {
         Users newUser = Users(
           id: user.uid,
