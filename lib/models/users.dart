@@ -17,24 +17,24 @@ class Users {
 
   factory Users.fromMap(Map<String, dynamic> map) {
     return Users(
-      id: map['uid'] ?? '',
-      name: map['displayName'],
+      id: map['id'] ?? '',
+      name: map['name'],
       email: map['email'],
-      img: map['photoURL'],
+      img: map['img'],
       created_at:
-          map['createdAt'] != null
-              ? (map['createdAt'] as Timestamp).toDate()
+          map['created_at'] != null
+              ? (map['created_at'] as Timestamp).toDate()
               : null,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'uid': id,
-      'displayName': name,
+      'id': id,
+      'name': name,
       'email': email,
-      'photoURL': img,
-      'createdAt':
+      'img': img,
+      'created_at':
           created_at != null
               ? Timestamp.fromDate(created_at!)
               : FieldValue.serverTimestamp(),

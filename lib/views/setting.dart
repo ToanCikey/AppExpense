@@ -1,6 +1,7 @@
 import 'package:doancuoiky/models/users.dart';
 import 'package:doancuoiky/providers/auth_provider.dart';
 import 'package:doancuoiky/repositories/user_repository.dart';
+import 'package:doancuoiky/views/auth/login_screen.dart';
 import 'package:doancuoiky/views/auth/user_detail.dart';
 import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
 import 'package:flutter/material.dart';
@@ -40,6 +41,12 @@ class _SettingState extends State<Setting> {
               return Center(child: CircularProgressIndicator());
             }
             if (!snapshot.hasData || snapshot.data == null) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginScreen()),
+                );
+              });
               return Center(child: Text("Không tìm thấy thông tin người dùng"));
             }
 

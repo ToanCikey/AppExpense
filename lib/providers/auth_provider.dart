@@ -28,7 +28,7 @@ class AuthProvider extends ChangeNotifier {
 
     try {
       await FirebaseFirestore.instance.collection('users').doc(id).update({
-        'displayName': name.trim(),
+        'name': name.trim(),
       });
 
       ToastHelper.showSuccess(context, "Cập nhật thành công");
