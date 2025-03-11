@@ -1,12 +1,44 @@
+import 'dart:io' show File;
+import 'package:image_picker/image_picker.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doancuoiky/repositories/auth_repository.dart';
 import 'package:doancuoiky/utils/toasthelper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart' show ImagePicker, ImageSource;
+import 'package:firebase_storage/firebase_storage.dart';
 
 class AuthProvider extends ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
   final AuthRepository _auth = AuthRepository();
+
+  Future<void> saveUserInfo(
+    String name,
+    String id,
+    BuildContext context,
+  ) async {
+    if (name.trim().isEmpty) {
+      ToastHelper.showError(context, "Tên không được để trống!");
+      return;
+    }
+
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      await FirebaseFirestore.instance.collection('users').doc(id).update({
+        'displayName': name.trim(),
+      });
+
+      ToastHelper.showSuccess(context, "Cập nhật thành công");
+    } catch (e) {
+      ToastHelper.showError(context, "Cập nhật thất bại: ${e.toString()}");
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
 
   Future<void> login(
     String email,

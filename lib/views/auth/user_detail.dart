@@ -46,7 +46,13 @@ class _UserDetailState extends State<UserDetail> {
                   nameController: nameController,
                   emailController: emailController,
                   idController: idController,
-                  onSave: () {},
+                  onSave: () {
+                    authProvider.saveUserInfo(
+                      nameController.text,
+                      idController.text,
+                      context,
+                    );
+                  },
                   onSaveImg: () {},
                   user: widget.user,
                   isLoading: authProvider.isLoading,
