@@ -18,13 +18,13 @@ class Users {
   factory Users.fromMap(Map<String, dynamic> map) {
     return Users(
       id: map['id'] ?? '',
-      name: map['name'],
-      email: map['email'],
-      img: map['img'],
+      name: map['name'] ?? 'Unknown',
+      email: map['email'] ?? 'no-email@example.com',
+      img: map['img'] ?? '',
       created_at:
           map['created_at'] != null
               ? (map['created_at'] as Timestamp).toDate()
-              : null,
+              : DateTime.now(),
     );
   }
 

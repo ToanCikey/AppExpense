@@ -27,7 +27,7 @@ class Reports {
       created_at:
           map['created_at'] != null
               ? (map['created_at'] as Timestamp).toDate()
-              : null,
+              : DateTime.now(),
     );
   }
 

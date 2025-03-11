@@ -119,18 +119,10 @@ class _SettingState extends State<Setting> {
                               : () {
                                 authProvider.logout(context);
                               },
-                      child:
-                          authProvider.isLoading
-                              ? const CircularProgressIndicator(
-                                color: Colors.white,
-                              )
-                              : const Text(
-                                "Đăng xuất",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.white,
-                                ),
-                              ),
+                      child: const Text(
+                        "Đăng xuất",
+                        style: TextStyle(fontSize: 18, color: Colors.white),
+                      ),
                     ),
                   ),
                 ],
