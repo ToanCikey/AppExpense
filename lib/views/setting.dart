@@ -1,6 +1,7 @@
 import 'package:doancuoiky/models/users.dart';
 import 'package:doancuoiky/providers/auth_provider.dart';
 import 'package:doancuoiky/repositories/user_repository.dart';
+import 'package:doancuoiky/views/auth/user_detail.dart';
 import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -48,34 +49,89 @@ class _SettingState extends State<Setting> {
               child: Padding(
                 padding: EdgeInsets.all(16),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundImage:
-                          user.img != null
-                              ? NetworkImage(user.img!)
-                              : AssetImage("assets/default_avatar.png")
-                                  as ImageProvider,
+                    Center(
+                      child: CircleAvatar(
+                        radius: 50,
+                        backgroundImage:
+                            // ignore: unnecessary_null_comparison
+                            user.img != null
+                                ? NetworkImage(user.img)
+                                : AssetImage("assets/default_avatar.png")
+                                    as ImageProvider,
+                      ),
                     ),
-                    SizedBox(height: 16),
-                    Text(
-                      user.name ?? "Không có tên",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                    const SizedBox(height: 20),
+                    Center(
+                      child: Text(
+                        user.name,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromARGB(
+                            255,
+                            67,
+                            83,
+                            137,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => UserDetail(user: user),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          "Thông tin cá nhân",
+                          style: TextStyle(fontSize: 18, color: Colors.white),
+                        ),
                       ),
                     ),
                     SizedBox(height: 20),
-                    Row(
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            authProvider.logout(context);
-                          },
-                          child: Text("Đăng xuất"),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                         ),
-                      ],
+                        onPressed:
+                            authProvider.isLoading
+                                ? null
+                                : () {
+                                  authProvider.logout(context);
+                                },
+                        child:
+                            authProvider.isLoading
+                                ? const CircularProgressIndicator(
+                                  color: Colors.white,
+                                )
+                                : const Text(
+                                  "Đăng xuất",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                      ),
                     ),
                   ],
                 ),
