@@ -1,11 +1,11 @@
 import 'package:doancuoiky/models/users.dart';
-import 'package:doancuoiky/repositories/user_repository.dart';
 import 'package:doancuoiky/services/auth_service.dart';
+import 'package:doancuoiky/services/user_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthRepository {
   final AuthService _auth = AuthService();
-  final UserRepository _userRepo = UserRepository();
+  final UserService _userService = UserService();
 
   Future<User?> register(String email, String password) async {
     User? user = await _auth.register(email, password);
@@ -18,7 +18,7 @@ class AuthRepository {
         created_at: DateTime.now(),
       );
 
-      await _userRepo.saveUser(newUser);
+      await _userService.saveUser(newUser);
     }
     return user;
   }
@@ -30,7 +30,7 @@ class AuthRepository {
   Future<User?> signInWithGoogle() async {
     User? user = await _auth.signInWithGoogle();
     if (user != null) {
-      Users? existingUser = await _userRepo.getUser(user.uid);
+      Users? existingUser = await _userService.getUser(user.uid);
       if (existingUser == null) {
         Users newUser = Users(
           id: user.uid,
@@ -39,7 +39,7 @@ class AuthRepository {
           img: user.photoURL ?? '',
           created_at: DateTime.now(),
         );
-        await _userRepo.saveUser(newUser);
+        await _userService.saveUser(newUser);
       }
     }
     return user;

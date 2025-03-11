@@ -1,3 +1,4 @@
+import 'package:doancuoiky/views/category/category_screen.dart';
 import 'package:doancuoiky/views/setting.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _pages = [
     Center(child: Text("Báo cáo")),
-    Center(child: Text("Nhập vào")),
+    CategoryScreen(),
     Center(child: Text("Lịch")),
     Setting(),
   ];
@@ -30,8 +31,11 @@ class _HomePageState extends State<HomePage> {
         },
         destinations: [
           NavigationDestination(icon: Icon(Icons.pie_chart), label: 'Báo cáo'),
-          NavigationDestination(icon: Icon(Icons.input), label: 'Nhập vào'),
-          NavigationDestination(icon: Icon(Icons.event), label: 'Lịch'),
+          NavigationDestination(icon: Icon(Icons.category), label: 'Danh mục'),
+          NavigationDestination(
+            icon: Icon(Icons.swap_horiz),
+            label: 'Giao dịch',
+          ),
           NavigationDestination(icon: Icon(Icons.settings), label: 'Cài đặt'),
         ],
       ),
