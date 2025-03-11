@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Transactions {
-  final int id;
-  final int category_id;
+  final String id;
+  final String category_id;
   final double amount;
   final DateTime? created_at;
 

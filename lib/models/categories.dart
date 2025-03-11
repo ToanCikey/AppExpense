@@ -1,7 +1,7 @@
 import 'package:doancuoiky/utils/enum_type.dart';
 
 class Categories {
-  final int id;
+  final String id;
   final String user_id;
   final String name;
   final CategoryType type;

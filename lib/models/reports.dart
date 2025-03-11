@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Reports {
-  final int id;
+  final String id;
   final String user_id;
   final DateTime period;
   final double total_income;
