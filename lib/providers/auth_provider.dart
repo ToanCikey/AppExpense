@@ -1,17 +1,13 @@
-import 'dart:io' show File;
-import 'package:image_picker/image_picker.dart';
+import 'package:doancuoiky/services/auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:doancuoiky/repositories/auth_repository.dart';
 import 'package:doancuoiky/utils/toasthelper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart' show ImagePicker, ImageSource;
-import 'package:firebase_storage/firebase_storage.dart';
 
 class AuthProvider extends ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
-  final AuthRepository _auth = AuthRepository();
+  final AuthService _auth = AuthService();
 
   Future<void> saveUserInfo(
     String name,

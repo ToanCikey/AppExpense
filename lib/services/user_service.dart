@@ -1,20 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doancuoiky/models/users.dart';
+import 'package:doancuoiky/repositories/user_repository.dart';
 
 class UserService {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final UserRepository _user = UserRepository();
 
   Future<void> saveUser(Users user) async {
-    await _firestore.collection('users').doc(user.id).set(user.toMap());
+    _user.saveUser(user);
   }
 
   Future<Users?> getUser(String id) async {
-    DocumentSnapshot userDoc =
-        await _firestore.collection('users').doc(id).get();
-
-    if (userDoc.exists) {
-      return Users.fromMap(userDoc.data() as Map<String, dynamic>);
-    }
-    return null;
+    return _user.getUser(id);
   }
 }

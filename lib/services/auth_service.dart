@@ -1,52 +1,51 @@
+import 'package:doancuoiky/models/users.dart';
+import 'package:doancuoiky/repositories/auth_repository.dart';
+import 'package:doancuoiky/repositories/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final AuthRepository _auth = AuthRepository();
+  final UserRepository _user = UserRepository();
+
   Future<User?> register(String email, String password) async {
-    try {
-      UserCredential userCredential = await _auth
-          .createUserWithEmailAndPassword(email: email, password: password);
-      return userCredential.user;
-    } catch (e) {
-      print("Lỗi đăng ký: $e");
-      return null;
+    User? user = await _auth.register(email, password);
+    if (user != null) {
+      Users newUser = Users(
+        id: user.uid,
+        name: "Uknow",
+        email: email,
+        img: user.photoURL ?? '',
+        created_at: DateTime.now(),
+      );
+
+      await _user.saveUser(newUser);
     }
+    return user;
   }
 
   Future<User?> login(String email, String password) async {
-    try {
-      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      return userCredential.user;
-    } catch (e) {
-      print("Lỗi đăng nhập: $e");
-      return null;
-    }
+    return _auth.login(email, password);
   }
 
   Future<User?> signInWithGoogle() async {
-    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-    if (googleUser == null) return null;
-
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
-    final AuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-
-    final UserCredential userCredential = await _auth.signInWithCredential(
-      credential,
-    );
-    return userCredential.user;
+    User? user = await _auth.signInWithGoogle();
+    if (user != null) {
+      Users? existingUser = await _user.getUser(user.uid);
+      if (existingUser == null) {
+        Users newUser = Users(
+          id: user.uid,
+          name: user.displayName ?? '',
+          email: user.email ?? '',
+          img: user.photoURL ?? '',
+          created_at: DateTime.now(),
+        );
+        await _user.saveUser(newUser);
+      }
+    }
+    return user;
   }
 
   Future<void> signOut() async {
-    await _googleSignIn.signOut();
-    await _auth.signOut();
+    return _auth.signOut();
   }
 }

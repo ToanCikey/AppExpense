@@ -1,28 +1,44 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doancuoiky/models/categories.dart';
+import 'package:doancuoiky/repositories/category_repository.dart';
 
 class CategoryService {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final CategoryRepository _category = CategoryRepository();
 
   Future<void> saveCategory(Categories category) async {
-    await _firestore
-        .collection('categories')
-        .doc(category.id)
-        .set(category.toMap());
+    try {
+      await _category.saveCategory(category);
+    } catch (e) {
+      throw Exception("Lưu danh mục thất bại: ${e.toString()}");
+    }
   }
 
-  Future<void> deleteCategory(String id) async {
-    await _firestore.collection('categories').doc(id).delete();
+  Future<void> deleteCategory(String? id) async {
+    if (id == null || id.isEmpty) {
+      throw Exception("Không có id hợp lệ!");
+    }
+    try {
+      await _category.deleteCategory(id);
+    } catch (e) {
+      throw Exception("Xóa danh mục thất bại: ${e.toString()}");
+    }
   }
 
   Future<List<Categories>> listCategory() async {
-    QuerySnapshot snapshot = await _firestore.collection('categories').get();
-    return snapshot.docs
-        .map((doc) => Categories.fromMap(doc.data() as Map<String, dynamic>))
-        .toList();
+    try {
+      return await _category.listCategory();
+    } catch (e) {
+      throw Exception("Lấy danh mục thất bại: ${e.toString()}");
+    }
   }
 
-  Future<void> updateCategory(String id, Map<String, dynamic> data) async {
-    await _firestore.collection('categories').doc(id).update(data);
+  Future<void> updateCategory(String? id, Map<String, dynamic> data) async {
+    if (id == null || id.isEmpty) {
+      throw Exception("Không có id hợp lệ!");
+    }
+    try {
+      await _category.updateCategory(id, data);
+    } catch (e) {
+      throw Exception("Sửa danh mục thất bại: ${e.toString()}");
+    }
   }
 }

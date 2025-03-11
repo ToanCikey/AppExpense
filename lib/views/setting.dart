@@ -27,125 +27,117 @@ class _SettingState extends State<Setting> {
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
 
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("Cài đặt", style: TextStyle(fontSize: 25)),
-          backgroundColor: Colors.blue,
-        ),
-        body: FutureBuilder<Users?>(
-          future:
-              id != null ? UserRepository().getUser(id!) : Future.value(null),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            }
-            if (!snapshot.hasData || snapshot.data == null) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginScreen()),
-                );
-              });
-              return Center(child: Text("Không tìm thấy thông tin người dùng"));
-            }
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Cài đặt", style: TextStyle(fontSize: 25)),
+        backgroundColor: Colors.blue,
+      ),
+      body: FutureBuilder<Users?>(
+        future: id != null ? UserRepository().getUser(id!) : Future.value(null),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (!snapshot.hasData || snapshot.data == null) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => LoginScreen()),
+              );
+            });
+            return Center(child: Text("Không tìm thấy thông tin người dùng"));
+          }
 
-            Users user = snapshot.data!;
+          Users user = snapshot.data!;
 
-            return SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: CircleAvatar(
-                        radius: 50,
-                        backgroundImage:
-                            // ignore: unnecessary_null_comparison
-                            user.img != null
-                                ? NetworkImage(user.img)
-                                : AssetImage("assets/default_avatar.png")
-                                    as ImageProvider,
+          return SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: CircleAvatar(
+                      radius: 50,
+                      backgroundImage:
+                          // ignore: unnecessary_null_comparison
+                          user.img != null
+                              ? NetworkImage(user.img)
+                              : AssetImage("assets/default_avatar.png")
+                                  as ImageProvider,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Center(
+                    child: Text(
+                      user.name,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 20),
-                    Center(
-                      child: Text(
-                        user.name,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 67, 83, 137),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color.fromARGB(
-                            255,
-                            67,
-                            83,
-                            137,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UserDetail(user: user),
                           ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => UserDetail(user: user),
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          "Thông tin cá nhân",
-                          style: TextStyle(fontSize: 18, color: Colors.white),
-                        ),
+                        );
+                      },
+                      child: const Text(
+                        "Thông tin cá nhân",
+                        style: TextStyle(fontSize: 18, color: Colors.white),
                       ),
                     ),
-                    SizedBox(height: 20),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.black,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
+                  ),
+                  SizedBox(height: 20),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        onPressed:
-                            authProvider.isLoading
-                                ? null
-                                : () {
-                                  authProvider.logout(context);
-                                },
-                        child:
-                            authProvider.isLoading
-                                ? const CircularProgressIndicator(
+                      ),
+                      onPressed:
+                          authProvider.isLoading
+                              ? null
+                              : () {
+                                authProvider.logout(context);
+                              },
+                      child:
+                          authProvider.isLoading
+                              ? const CircularProgressIndicator(
+                                color: Colors.white,
+                              )
+                              : const Text(
+                                "Đăng xuất",
+                                style: TextStyle(
+                                  fontSize: 18,
                                   color: Colors.white,
-                                )
-                                : const Text(
-                                  "Đăng xuất",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.white,
-                                  ),
                                 ),
-                      ),
+                              ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }
