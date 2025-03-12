@@ -16,12 +16,14 @@ class CategoryRepository {
     await _firestore.collection('categories').doc(id).delete();
   }
 
-  Future<List<Categories>> listCategory(String type) async {
+  Future<List<Categories>> listCategory(String userId, String type) async {
     QuerySnapshot snapshot =
         await _firestore
             .collection('categories')
+            .where('user_id', isEqualTo: userId)
             .where('type', isEqualTo: type)
             .get();
+
     return snapshot.docs
         .map((doc) => Categories.fromMap(doc.data() as Map<String, dynamic>))
         .toList();

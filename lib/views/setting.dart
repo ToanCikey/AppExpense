@@ -29,8 +29,12 @@ class _SettingState extends State<Setting> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Cài đặt", style: TextStyle(fontSize: 25)),
+        title: Text(
+          "Cài đặt",
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+        ),
         backgroundColor: Colors.blue,
+        centerTitle: true,
       ),
       body: FutureBuilder<Users?>(
         future: id != null ? UserRepository().getUser(id!) : Future.value(null),

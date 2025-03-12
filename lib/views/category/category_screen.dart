@@ -1,6 +1,6 @@
 import 'package:doancuoiky/providers/category_provider.dart'
     show CategoryProvider;
-import 'package:doancuoiky/views/category/create_category.dart';
+import 'package:doancuoiky/views/category/create_category_form.dart';
 import 'package:doancuoiky/views/category/expense_category.dart';
 import 'package:doancuoiky/views/category/income_category.dart';
 import 'package:flutter/material.dart';
@@ -30,9 +30,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            "Danh Mục",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            "Danh mục",
+            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
           ),
+          centerTitle: true,
           backgroundColor: Colors.blue,
           bottom: TabBar(
             tabs: [Tab(text: "Thu nhập"), Tab(text: "Chi tiêu")],

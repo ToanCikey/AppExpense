@@ -22,11 +22,20 @@ class CategoryProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      _incomeCategories = await _categoryService.getIncomeCategories();
-      _expenseCategories = await _categoryService.getExpenseCategories();
+      String? userId = await _userService.getID();
+      if (userId == null) {
+        _isLoading = false;
+        notifyListeners();
+        return;
+      }
+
+      _incomeCategories = await _categoryService.getIncomeCategories(userId);
+      _expenseCategories = await _categoryService.getExpenseCategories(userId);
+
       print("Fetched income categories: $_incomeCategories");
       print("Fetched expense categories: $_expenseCategories");
     } catch (e) {
+      print("Lỗi khi lấy danh mục: $e");
       _incomeCategories = [];
       _expenseCategories = [];
     }

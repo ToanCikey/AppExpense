@@ -24,17 +24,17 @@ class CategoryService {
     }
   }
 
-  Future<List<Categories>> getIncomeCategories() async {
+  Future<List<Categories>> getIncomeCategories(String userId) async {
     try {
-      return await _category.listCategory(CategoryType.income.name);
+      return await _category.listCategory(userId, CategoryType.income.name);
     } catch (e) {
       throw Exception("Lấy danh mục thất bại: ${e.toString()}");
     }
   }
 
-  Future<List<Categories>> getExpenseCategories() async {
+  Future<List<Categories>> getExpenseCategories(String userId) async {
     try {
-      return await _category.listCategory(CategoryType.expense.name);
+      return await _category.listCategory(userId, CategoryType.expense.name);
     } catch (e) {
       throw Exception("Lấy danh mục thất bại: ${e.toString()}");
     }

@@ -32,9 +32,10 @@ class _UserDetailState extends State<UserDetail> {
       appBar: AppBar(
         title: Text(
           "Thông tin cá nhân",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.blue,
+        centerTitle: true,
       ),
       body: Stack(
         children: [
