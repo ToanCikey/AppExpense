@@ -76,4 +76,55 @@ class CategoryProvider extends ChangeNotifier {
       print("Thêm danh mục thất bại: $e");
     }
   }
+
+  Future<void> deleteCategory(String categoryId, BuildContext context) async {
+    bool confirmDelete = await showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: const Text("Xác nhận xóa"),
+            content: const Text("Bạn có muốn xóa danh mục này không?"),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: const Text("Hủy"),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: const Text("Chắc chắn"),
+              ),
+            ],
+          ),
+    );
+
+    if (confirmDelete == true) {
+      try {
+        await _categoryService.deleteCategory(categoryId);
+        await fetchCategories();
+        print("Xóa danh mục thành công!");
+      } catch (e) {
+        print("Xóa danh mục thất bại: $e");
+      }
+    }
+  }
+
+  Future<void> updateCategory(Categories category, BuildContext context) async {
+    try {
+      await _categoryService.updateCategory(category.id, category.toMap());
+
+      _incomeCategories.removeWhere((cat) => cat.id == category.id);
+      _expenseCategories.removeWhere((cat) => cat.id == category.id);
+
+      if (category.type == CategoryType.income) {
+        _incomeCategories.add(category);
+      } else {
+        _expenseCategories.add(category);
+      }
+
+      notifyListeners();
+      print("Cập nhật danh mục thành công!");
+    } catch (e) {
+      print("Lỗi khi cập nhật danh mục: $e");
+    }
+  }
 }

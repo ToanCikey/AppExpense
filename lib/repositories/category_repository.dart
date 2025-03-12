@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doancuoiky/models/categories.dart';
-import 'package:doancuoiky/utils/enum_type.dart';
 
 class CategoryRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

@@ -1,10 +1,12 @@
+import 'package:doancuoiky/models/categories.dart';
 import 'package:doancuoiky/utils/enum_type.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/category_provider.dart';
 
 class CreateCategoryForm extends StatefulWidget {
-  const CreateCategoryForm({super.key});
+  final Categories? category;
+  const CreateCategoryForm({super.key, this.category});
 
   @override
   State<CreateCategoryForm> createState() => _CreateCategoryFormState();
@@ -13,7 +15,16 @@ class CreateCategoryForm extends StatefulWidget {
 class _CreateCategoryFormState extends State<CreateCategoryForm> {
   final nameController = TextEditingController();
   CategoryType selectedType = CategoryType.income;
-  final _formKey = GlobalKey<FormState>(); // Key để validate form
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.category != null) {
+      nameController.text = widget.category!.name;
+      selectedType = widget.category!.type;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,12 +109,25 @@ class _CreateCategoryFormState extends State<CreateCategoryForm> {
               child: ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    Provider.of<CategoryProvider>(
-                      context,
-                      listen: false,
-                    ).addCategory(nameController.text, selectedType, context);
+                    if (widget.category == null) {
+                      Provider.of<CategoryProvider>(
+                        context,
+                        listen: false,
+                      ).addCategory(nameController.text, selectedType, context);
+                    } else {
+                      final updatedCategory = Categories(
+                        id: widget.category!.id,
+                        user_id: widget.category!.user_id,
+                        name: nameController.text,
+                        type: selectedType,
+                      );
+                      Provider.of<CategoryProvider>(
+                        context,
+                        listen: false,
+                      ).updateCategory(updatedCategory, context);
+                    }
 
-                    Navigator.pop(context);
+                    Navigator.pop(context, true);
                   }
                 },
                 style: ElevatedButton.styleFrom(
@@ -113,8 +137,8 @@ class _CreateCategoryFormState extends State<CreateCategoryForm> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: const Text(
-                  "Thêm danh mục",
+                child: Text(
+                  widget.category == null ? 'Thêm' : 'Cập nhật',
                   style: TextStyle(fontSize: 20),
                 ),
               ),

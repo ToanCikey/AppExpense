@@ -13,8 +13,8 @@ class CategoryService {
     }
   }
 
-  Future<void> deleteCategory(String? id) async {
-    if (id == null || id.isEmpty) {
+  Future<void> deleteCategory(String id) async {
+    if (id.isEmpty) {
       throw Exception("Không có id hợp lệ!");
     }
     try {
@@ -40,8 +40,8 @@ class CategoryService {
     }
   }
 
-  Future<void> updateCategory(String? id, Map<String, dynamic> data) async {
-    if (id == null || id.isEmpty) {
+  Future<void> updateCategory(String id, Map<String, dynamic> data) async {
+    if (id.isEmpty) {
       throw Exception("Không có id hợp lệ!");
     }
     try {

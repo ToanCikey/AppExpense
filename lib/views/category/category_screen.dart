@@ -19,7 +19,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<CategoryProvider>(context, listen: false).fetchCategories();
-      print("fetchCategories() đã chạy xong!");
+      //print("fetchCategories() đã chạy xong!");
     });
   }
 
