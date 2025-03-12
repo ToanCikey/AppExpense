@@ -1,7 +1,7 @@
 import 'package:doancuoiky/models/users.dart';
 import 'package:doancuoiky/repositories/auth_repository.dart';
 import 'package:doancuoiky/repositories/user_repository.dart';
-import 'package:doancuoiky/utils/toasthelper.dart';
+import 'package:doancuoiky/utils/custom_toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -21,14 +21,13 @@ class AuthService {
     if (emailError != null ||
         passwordError != null ||
         passwordConfirmError != null) {
-      ToastHelper.showError(
-        context,
+      CustomToast.showError(
         emailError ?? passwordError ?? passwordConfirmError!,
       );
       return;
     }
     if (password != confirmPassword) {
-      ToastHelper.showWarning(context, "Mật khẩu không trùng khớp");
+      CustomToast.showWarning("Mật khẩu không trùng khớp");
       return;
     }
     User? user = await _auth.register(email, password);
@@ -42,10 +41,10 @@ class AuthService {
       );
 
       await _user.saveUser(newUser);
-      ToastHelper.showSuccess(context, "Đăng ký thành công");
+      CustomToast.showSuccess("Đăng ký thành công");
       Navigator.pushReplacementNamed(context, "/login");
     } else {
-      ToastHelper.showWarning(context, "Đăng ký thất bại");
+      CustomToast.showWarning("Đăng ký thất bại");
       return;
     }
   }
@@ -58,15 +57,15 @@ class AuthService {
     String? emailError = validateEmail(email);
     String? passwordError = validatePassword(password);
     if (emailError != null || passwordError != null) {
-      ToastHelper.showError(context, emailError ?? passwordError!);
+      CustomToast.showSuccess(emailError ?? passwordError!);
       return;
     }
     User? user = await _auth.login(email, password);
     if (user != null) {
-      ToastHelper.showSuccess(context, "Đăng nhập thành công");
+      CustomToast.showSuccess("Đăng nhập thành công");
       Navigator.pushReplacementNamed(context, "/home");
     } else {
-      ToastHelper.showWarning(context, "Email hoặc PassWord không đúng !");
+      CustomToast.showWarning("Email hoặc PassWord không đúng !");
     }
   }
 

@@ -51,7 +51,6 @@ class _UserDetailState extends State<UserDetail> {
                     authProvider.saveUserInfo(
                       nameController.text,
                       idController.text,
-                      context,
                     );
                   },
                   onSaveImg: () {},

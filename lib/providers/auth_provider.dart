@@ -1,6 +1,6 @@
 import 'package:doancuoiky/services/auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:doancuoiky/utils/toasthelper.dart';
+import 'package:doancuoiky/utils/custom_toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -9,13 +9,9 @@ class AuthProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   final AuthService _auth = AuthService();
 
-  Future<void> saveUserInfo(
-    String name,
-    String id,
-    BuildContext context,
-  ) async {
+  Future<void> saveUserInfo(String name, String id) async {
     if (name.trim().isEmpty) {
-      ToastHelper.showError(context, "Tên không được để trống!");
+      CustomToast.showError("Tên không được để trống!");
       return;
     }
 
@@ -26,10 +22,9 @@ class AuthProvider extends ChangeNotifier {
       await FirebaseFirestore.instance.collection('users').doc(id).update({
         'name': name.trim(),
       });
-
-      ToastHelper.showSuccess(context, "Cập nhật thành công");
+      CustomToast.showSuccess("Cập nhật thành công");
     } catch (e) {
-      ToastHelper.showError(context, "Cập nhật thất bại: ${e.toString()}");
+      CustomToast.showError("Cập nhật thất bại ${e.toString()}");
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -93,7 +88,7 @@ class AuthProvider extends ChangeNotifier {
     await Future.delayed(Duration(seconds: 1));
 
     await _auth.signOut();
-    ToastHelper.showSuccess(context, "Đăng xuất thành công");
+    CustomToast.showSuccess("Đăng xuất thành công");
 
     _isLoading = false;
     notifyListeners();
