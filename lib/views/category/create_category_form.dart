@@ -113,7 +113,7 @@ class _CreateCategoryFormState extends State<CreateCategoryForm> {
                       Provider.of<CategoryProvider>(
                         context,
                         listen: false,
-                      ).addCategory(nameController.text, selectedType, context);
+                      ).addCategory(nameController.text, selectedType);
                     } else {
                       final updatedCategory = Categories(
                         id: widget.category!.id,
@@ -124,7 +124,7 @@ class _CreateCategoryFormState extends State<CreateCategoryForm> {
                       Provider.of<CategoryProvider>(
                         context,
                         listen: false,
-                      ).updateCategory(updatedCategory, context);
+                      ).updateCategory(updatedCategory);
                     }
 
                     Navigator.pop(context, true);

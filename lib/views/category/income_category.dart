@@ -16,16 +16,14 @@ class IncomeCategory extends StatefulWidget {
 class _IncomeCategoryState extends State<IncomeCategory> {
   @override
   Widget build(BuildContext context) {
+    final cateProvider = Provider.of<CategoryProvider>(context);
     return ListView.builder(
       itemCount: widget.categories.length,
       itemBuilder: (context, index) {
         final category = widget.categories[index];
         return GestureDetector(
           onLongPress: () {
-            Provider.of<CategoryProvider>(
-              context,
-              listen: false,
-            ).deleteCategory(category.id, context);
+            cateProvider.deleteCategory(category.id, context);
           },
           onTap: () {
             final result = Navigator.push(
@@ -36,10 +34,7 @@ class _IncomeCategoryState extends State<IncomeCategory> {
             );
 
             if (result == true) {
-              Provider.of<CategoryProvider>(
-                context,
-                listen: false,
-              ).fetchCategories();
+              cateProvider.fetchCategories();
             }
           },
           child: ListTile(

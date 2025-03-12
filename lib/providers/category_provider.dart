@@ -1,6 +1,7 @@
 import 'package:doancuoiky/models/categories.dart';
 import 'package:doancuoiky/services/category_service.dart';
 import 'package:doancuoiky/services/user_service.dart';
+import 'package:doancuoiky/utils/custom_toast.dart';
 import 'package:doancuoiky/utils/enum_type.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
@@ -44,11 +45,7 @@ class CategoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addCategory(
-    String name,
-    CategoryType type,
-    BuildContext context,
-  ) async {
+  Future<void> addCategory(String name, CategoryType type) async {
     String? id = await _userService.getID();
     if (id == null) {
       print("Không tìm thấy user ID");
@@ -71,9 +68,9 @@ class CategoryProvider extends ChangeNotifier {
       }
 
       notifyListeners();
-      print("Thêm danh mục thành công: ${newCategory.name}");
+      CustomToast.showSuccess("Thêm thành công danh mục ${newCategory.name}");
     } catch (e) {
-      print("Thêm danh mục thất bại: $e");
+      CustomToast.showError("Thêm thất bại danh mục ${newCategory.name}");
     }
   }
 
@@ -101,14 +98,14 @@ class CategoryProvider extends ChangeNotifier {
       try {
         await _categoryService.deleteCategory(categoryId);
         await fetchCategories();
-        print("Xóa danh mục thành công!");
+        CustomToast.showSuccess("Xóa thành công danh mục ");
       } catch (e) {
-        print("Xóa danh mục thất bại: $e");
+        CustomToast.showError("Xóa thất bại danh mục ");
       }
     }
   }
 
-  Future<void> updateCategory(Categories category, BuildContext context) async {
+  Future<void> updateCategory(Categories category) async {
     try {
       await _categoryService.updateCategory(category.id, category.toMap());
 
@@ -122,9 +119,9 @@ class CategoryProvider extends ChangeNotifier {
       }
 
       notifyListeners();
-      print("Cập nhật danh mục thành công!");
+      CustomToast.showSuccess("Cập nhật thành công danh mục ${category.name}");
     } catch (e) {
-      print("Lỗi khi cập nhật danh mục: $e");
+      CustomToast.showError("Cập nhật thất bại danh mục ");
     }
   }
 }

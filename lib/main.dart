@@ -6,6 +6,7 @@ import 'package:doancuoiky/views/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -17,7 +18,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
         ChangeNotifierProvider(create: (_) => AuthProvider()),
       ],
-      child: MyApp(),
+      child: OKToast(child: MyApp()),
     ),
   );
 }
