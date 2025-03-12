@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doancuoiky/models/categories.dart';
+import 'package:doancuoiky/utils/enum_type.dart';
 
 class CategoryRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -15,8 +16,12 @@ class CategoryRepository {
     await _firestore.collection('categories').doc(id).delete();
   }
 
-  Future<List<Categories>> listCategory() async {
-    QuerySnapshot snapshot = await _firestore.collection('categories').get();
+  Future<List<Categories>> listCategory(String type) async {
+    QuerySnapshot snapshot =
+        await _firestore
+            .collection('categories')
+            .where('type', isEqualTo: type)
+            .get();
     return snapshot.docs
         .map((doc) => Categories.fromMap(doc.data() as Map<String, dynamic>))
         .toList();

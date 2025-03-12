@@ -1,5 +1,6 @@
 import 'package:doancuoiky/models/categories.dart';
 import 'package:doancuoiky/repositories/category_repository.dart';
+import 'package:doancuoiky/utils/enum_type.dart';
 
 class CategoryService {
   final CategoryRepository _category = CategoryRepository();
@@ -23,9 +24,17 @@ class CategoryService {
     }
   }
 
-  Future<List<Categories>> listCategory() async {
+  Future<List<Categories>> getIncomeCategories() async {
     try {
-      return await _category.listCategory();
+      return await _category.listCategory(CategoryType.income.name);
+    } catch (e) {
+      throw Exception("Lấy danh mục thất bại: ${e.toString()}");
+    }
+  }
+
+  Future<List<Categories>> getExpenseCategories() async {
+    try {
+      return await _category.listCategory(CategoryType.expense.name);
     } catch (e) {
       throw Exception("Lấy danh mục thất bại: ${e.toString()}");
     }

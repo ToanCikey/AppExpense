@@ -17,4 +17,10 @@ class UserRepository {
     }
     return null;
   }
+
+  Future<String> getID(Users user) async {
+    DocumentSnapshot userDoc =
+        await _firestore.collection('users').doc(user.id).get();
+    return userDoc.id;
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:doancuoiky/providers/auth_provider.dart';
+import 'package:doancuoiky/providers/category_provider.dart';
 import 'package:doancuoiky/views/auth/login_screen.dart';
 import 'package:doancuoiky/views/auth/register_screen.dart';
 import 'package:doancuoiky/views/home_page.dart';
@@ -10,7 +11,15 @@ import 'package:provider/provider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(ChangeNotifierProvider(create: (_) => AuthProvider(), child: MyApp()));
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CategoryProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
