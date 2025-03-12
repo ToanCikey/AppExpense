@@ -46,6 +46,8 @@ class CategoryProvider extends ChangeNotifier {
   }
 
   Future<void> addCategory(String name, CategoryType type) async {
+    _isLoading = true;
+    notifyListeners();
     String? id = await _userService.getID();
     if (id == null) {
       print("Không tìm thấy user ID");
@@ -72,9 +74,14 @@ class CategoryProvider extends ChangeNotifier {
     } catch (e) {
       CustomToast.showError("Thêm thất bại danh mục ${newCategory.name}");
     }
+
+    _isLoading = false;
+    notifyListeners();
   }
 
   Future<void> deleteCategory(String categoryId, BuildContext context) async {
+    _isLoading = true;
+    notifyListeners();
     bool confirmDelete = await showDialog(
       context: context,
       builder:
@@ -103,9 +110,13 @@ class CategoryProvider extends ChangeNotifier {
         CustomToast.showError("Xóa thất bại danh mục ");
       }
     }
+    _isLoading = false;
+    notifyListeners();
   }
 
   Future<void> updateCategory(Categories category) async {
+    _isLoading = true;
+    notifyListeners();
     try {
       await _categoryService.updateCategory(category.id, category.toMap());
 
@@ -123,5 +134,7 @@ class CategoryProvider extends ChangeNotifier {
     } catch (e) {
       CustomToast.showError("Cập nhật thất bại danh mục ");
     }
+    _isLoading = false;
+    notifyListeners();
   }
 }

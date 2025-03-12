@@ -1,5 +1,6 @@
 import 'package:doancuoiky/providers/auth_provider.dart';
 import 'package:doancuoiky/providers/category_provider.dart';
+import 'package:doancuoiky/providers/transaction_provider.dart';
 import 'package:doancuoiky/views/auth/login_screen.dart';
 import 'package:doancuoiky/views/auth/register_screen.dart';
 import 'package:doancuoiky/views/home_page.dart';
@@ -17,6 +18,7 @@ Future<void> main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
         ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => TransactionProvider()),
       ],
       child: OKToast(child: MyApp()),
     ),

@@ -31,4 +31,16 @@ class CategoryRepository {
   Future<void> updateCategory(String id, Map<String, dynamic> data) async {
     await _firestore.collection('categories').doc(id).update(data);
   }
+
+  Future<List<Categories>> listCategoryByName(String userId) async {
+    QuerySnapshot snapshot =
+        await _firestore
+            .collection('categories')
+            .where('user_id', isEqualTo: userId)
+            .get();
+
+    return snapshot.docs
+        .map((doc) => Categories.fromMap(doc.data() as Map<String, dynamic>))
+        .toList();
+  }
 }

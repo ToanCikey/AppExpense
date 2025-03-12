@@ -1,5 +1,6 @@
 import 'package:doancuoiky/views/category/category_screen.dart';
 import 'package:doancuoiky/views/setting.dart';
+import 'package:doancuoiky/views/transaction/transaction_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,7 +16,7 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _pages = [
     Center(child: Text("Báo cáo")),
     CategoryScreen(),
-    Center(child: Text("Lịch")),
+    TransactionScreen(),
     Setting(),
   ];
   @override

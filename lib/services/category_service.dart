@@ -50,4 +50,15 @@ class CategoryService {
       throw Exception("Sửa danh mục thất bại: ${e.toString()}");
     }
   }
+
+  Future<List<Categories>> listCategoryByName(String userId) async {
+    if (userId.isEmpty) {
+      throw Exception("Không có id hợp lệ!");
+    }
+    try {
+      return await _category.listCategoryByName(userId);
+    } catch (e) {
+      throw Exception("Lấy danh mục thất bại: ${e.toString()}");
+    }
+  }
 }
