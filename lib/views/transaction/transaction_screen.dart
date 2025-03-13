@@ -1,8 +1,8 @@
 import 'package:doancuoiky/providers/transaction_provider.dart';
+import 'package:doancuoiky/views/transaction/transaction_form.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:doancuoiky/models/transactions.dart';
 import 'package:doancuoiky/utils/enum_type.dart';
 
 class TransactionScreen extends StatefulWidget {
@@ -26,6 +26,8 @@ class _TransactionScreenState extends State<TransactionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final tranProvider = Provider.of<TransactionProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -51,8 +53,8 @@ class _TransactionScreenState extends State<TransactionScreen> {
                 transaction.category_id,
               );
 
-              final categoryName = category?.name ?? "Không xác định";
-              final isIncome = category?.type == CategoryType.income;
+              final categoryName = category.name;
+              final isIncome = category.type == CategoryType.income;
 
               return Card(
                 margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -94,11 +96,14 @@ class _TransactionScreenState extends State<TransactionScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => CreateCategoryForm()),
-          // );
+        onPressed: () async {
+          final categories = await tranProvider.fetchCategories();
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => TransactionForm(categories: categories),
+            ),
+          );
         },
         backgroundColor: Colors.blue,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),

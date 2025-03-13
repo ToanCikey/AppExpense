@@ -11,6 +11,7 @@ class TransactionProvider extends ChangeNotifier {
   List<Transactions> _transactions = [];
   List<Categories> _categories = [];
   List<Transactions> get transactions => _transactions;
+  List<Categories> get categories => _categories;
   final CategoryService _categoryService = CategoryService();
   final UserService _userService = UserService();
   final TransactionService _transactionService = TransactionService();
@@ -34,23 +35,29 @@ class TransactionProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchCategories() async {
+  Future<List<Categories>> fetchCategories() async {
     _isLoading = true;
     notifyListeners();
+    List<Categories> categoriesList = [];
+
     try {
       String? userId = await _userService.getID();
       if (userId == null) {
         _isLoading = false;
         notifyListeners();
-        return;
+        return [];
       }
-      _categories = await _categoryService.listCategoryByName(userId);
+      categoriesList = await _categoryService.listCategoryByName(userId);
+
+      _categories = categoriesList;
     } catch (e) {
-      _categories = [];
+      print("Lỗi khi lấy danh mục: $e");
+      categoriesList = [];
     }
 
     _isLoading = false;
     notifyListeners();
+    return categoriesList;
   }
 
   Categories getCategoryById(String categoryId) {
