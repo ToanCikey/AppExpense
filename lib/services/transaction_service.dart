@@ -36,6 +36,7 @@ class TransactionService {
     }
     try {
       await _repository.updateTransaction(id, data);
+      CustomToast.showSuccess("Cập nhật giao dịch thành công");
     } catch (e) {
       CustomToast.showError("Cập nhật giao dịch thất bại");
     }

@@ -31,7 +31,7 @@ class _CreateCategoryFormState extends State<CreateCategoryForm> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Thêm Danh Mục",
+          "Thêm/Cập nhật Danh Mục",
           style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.blue,

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:doancuoiky/models/categories.dart';
 import 'package:doancuoiky/models/transactions.dart';
 import 'package:doancuoiky/repositories/category_repository.dart';
 
@@ -19,9 +18,10 @@ class TransactionRepository {
   }
 
   Future<List<Transactions>> listTransactions(String userId) async {
-    List<Categories> categoryIds = await _categoryRepository.listCategoryByName(
-      userId,
-    );
+    List<String> categoryIds =
+        (await _categoryRepository.listCategoryByName(
+          userId,
+        )).map((category) => category.id).toList();
     if (categoryIds.isEmpty) return [];
     QuerySnapshot snapshot =
         await _firestore

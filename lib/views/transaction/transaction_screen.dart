@@ -21,6 +21,10 @@ class _TransactionScreenState extends State<TransactionScreen> {
         context,
         listen: false,
       ).fetchTransactions();
+      Provider.of<TransactionProvider>(
+        context,
+        listen: false,
+      ).fetchCategories();
     });
   }
 
@@ -53,40 +57,62 @@ class _TransactionScreenState extends State<TransactionScreen> {
                 transaction.category_id,
               );
 
-              final categoryName = category.name;
-              final isIncome = category.type == CategoryType.income;
-
+              final categoryName = category?.name ?? "Không xác định";
+              final isIncome = category?.type == CategoryType.income;
+              final formattedAmount = NumberFormat(
+                "#,###",
+                "vi_VN",
+              ).format(transaction.amount);
               return Card(
                 margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 elevation: 4,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: ListTile(
-                  leading: Icon(
-                    isIncome ? Icons.arrow_upward : Icons.arrow_downward,
-                    color: isIncome ? Colors.green : Colors.red,
-                    size: 30,
-                  ),
-                  title: Text(
-                    categoryName,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  subtitle: Text(
-                    DateFormat(
-                      'dd/MM/yyyy',
-                    ).format(transaction.created_at ?? DateTime.now()),
-                    style: TextStyle(color: Colors.grey[600]),
-                  ),
-                  trailing: Text(
-                    "${isIncome ? '+' : '-'} ${transaction.amount.toStringAsFixed(2)} VNĐ",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                child: GestureDetector(
+                  onLongPress: () {
+                    tranProvider.deleteTransaction(transaction.id, context);
+                  },
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder:
+                            (context) => TransactionForm(
+                              categories: tranProvider.categories,
+                              transaction: transaction,
+                            ),
+                      ),
+                    );
+                  },
+
+                  child: ListTile(
+                    leading: Icon(
+                      isIncome ? Icons.arrow_upward : Icons.arrow_downward,
                       color: isIncome ? Colors.green : Colors.red,
+                      size: 30,
+                    ),
+                    title: Text(
+                      categoryName,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(
+                      DateFormat(
+                        'dd/MM/yyyy',
+                      ).format(transaction.created_at ?? DateTime.now()),
+                      style: TextStyle(color: Colors.grey[600]),
+                    ),
+
+                    trailing: Text(
+                      "${isIncome ? '+' : '-'} $formattedAmount VNĐ",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: isIncome ? Colors.green : Colors.red,
+                      ),
                     ),
                   ),
                 ),
@@ -97,7 +123,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          final categories = await tranProvider.fetchCategories();
+          final categories = tranProvider.categories;
           Navigator.push(
             context,
             MaterialPageRoute(
