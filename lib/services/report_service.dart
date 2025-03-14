@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 class ReportService {
   final ReportRepository _reportRepository = ReportRepository();
 
-  Future<Map<String, dynamic>> reportByDay(DateTime day) async {
+  Future<Map<String, dynamic>> reportByDay(DateTime day, String userId) async {
     DateTime now = DateTime.now();
 
     if (day.isAfter(now)) {
@@ -16,7 +16,7 @@ class ReportService {
     }
 
     try {
-      return await _reportRepository.reportByDay(day);
+      return await _reportRepository.reportByDay(day, userId);
     } catch (e, stackTrace) {
       CustomToast.showError("Lỗi khi lấy báo cáo ngày");
       debugPrint(stackTrace.toString());

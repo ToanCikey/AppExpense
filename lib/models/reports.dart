@@ -21,12 +21,15 @@ class Reports {
     return Reports(
       id: map['id'] ?? '',
       user_id: map['user_id'],
-      period: map['period'],
+      period:
+          map['period'] != null
+              ? DateTime.fromMillisecondsSinceEpoch(map['period'])
+              : DateTime.now(),
       total_income: map['total_income'],
       total_expense: map['total_expense'],
       created_at:
           map['created_at'] != null
-              ? (map['created_at'] as Timestamp).toDate()
+              ? DateTime.fromMillisecondsSinceEpoch(map['created_at'])
               : DateTime.now(),
     );
   }
@@ -35,13 +38,11 @@ class Reports {
     return {
       'id': id,
       'user_id': user_id,
-      'period': period,
+      'period': period.millisecondsSinceEpoch,
       'total_income': total_income,
       'total_expense': total_expense,
       'created_at':
-          created_at != null
-              ? Timestamp.fromDate(created_at!)
-              : FieldValue.serverTimestamp(),
+          created_at?.millisecondsSinceEpoch ?? FieldValue.serverTimestamp(),
     };
   }
 }

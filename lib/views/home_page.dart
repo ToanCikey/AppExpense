@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
           });
         },
         destinations: [
-          NavigationDestination(icon: Icon(Icons.pie_chart), label: 'Báo cáo'),
+          NavigationDestination(icon: Icon(Icons.pie_chart), label: 'Thống kê'),
           NavigationDestination(icon: Icon(Icons.category), label: 'Danh mục'),
           NavigationDestination(
             icon: Icon(Icons.swap_horiz),
