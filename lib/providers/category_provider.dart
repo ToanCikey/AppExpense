@@ -1,7 +1,6 @@
 import 'package:doancuoiky/models/categories.dart';
 import 'package:doancuoiky/services/category_service.dart';
 import 'package:doancuoiky/services/user_service.dart';
-import 'package:doancuoiky/utils/custom_toast.dart';
 import 'package:doancuoiky/utils/enum_type.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
@@ -70,9 +69,8 @@ class CategoryProvider extends ChangeNotifier {
       }
 
       notifyListeners();
-      CustomToast.showSuccess("Thêm thành công danh mục ${newCategory.name}");
     } catch (e) {
-      CustomToast.showError("Thêm thất bại danh mục ${newCategory.name}");
+      throw Exception(e.toString());
     }
 
     _isLoading = false;
@@ -105,9 +103,8 @@ class CategoryProvider extends ChangeNotifier {
       try {
         await _categoryService.deleteCategory(categoryId);
         await fetchCategories();
-        CustomToast.showSuccess("Xóa thành công danh mục ");
       } catch (e) {
-        CustomToast.showError("Xóa thất bại danh mục ");
+        throw Exception(e.toString());
       }
     }
     _isLoading = false;
@@ -130,9 +127,8 @@ class CategoryProvider extends ChangeNotifier {
       }
 
       notifyListeners();
-      CustomToast.showSuccess("Cập nhật thành công danh mục ${category.name}");
     } catch (e) {
-      CustomToast.showError("Cập nhật thất bại danh mục ");
+      throw Exception(e.toString());
     }
     _isLoading = false;
     notifyListeners();
