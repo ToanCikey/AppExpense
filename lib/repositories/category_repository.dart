@@ -4,6 +4,19 @@ import 'package:doancuoiky/models/categories.dart';
 class CategoryRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  Future<Categories?> getCategoryById(String id) async {
+    DocumentSnapshot doc =
+        await _firestore.collection('categories').doc(id).get();
+
+    if (doc.exists) {
+      Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
+      if (data != null) {
+        return Categories.fromMap(data);
+      }
+    }
+    return null;
+  }
+
   Future<void> saveCategory(Categories category) async {
     await _firestore
         .collection('categories')

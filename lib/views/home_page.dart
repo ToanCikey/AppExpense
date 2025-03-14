@@ -1,4 +1,5 @@
 import 'package:doancuoiky/views/category/category_screen.dart';
+import 'package:doancuoiky/views/report_screen.dart';
 import 'package:doancuoiky/views/setting.dart';
 import 'package:doancuoiky/views/transaction/transaction_screen.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    Center(child: Text("Báo cáo")),
+    ReportScreen(),
     CategoryScreen(),
     TransactionScreen(),
     Setting(),

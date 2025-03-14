@@ -23,7 +23,7 @@ class Transactions {
       note: map['note'],
       created_at:
           map['created_at'] != null
-              ? (map['created_at'] as Timestamp).toDate()
+              ? DateTime.fromMillisecondsSinceEpoch(map['created_at'])
               : DateTime.now(),
     );
   }
@@ -35,9 +35,7 @@ class Transactions {
       'amount': amount,
       'note': note,
       'created_at':
-          created_at != null
-              ? Timestamp.fromDate(created_at!)
-              : FieldValue.serverTimestamp(),
+          created_at?.millisecondsSinceEpoch ?? FieldValue.serverTimestamp(),
     };
   }
 }
