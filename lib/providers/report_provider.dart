@@ -17,12 +17,33 @@ class ReportProvider extends ChangeNotifier {
 
     try {
       String? userId = await _userService.getID();
+      // print("user iddddddddddddd" + userId!);
       if (userId == null) {
         _isLoading = false;
         notifyListeners();
         return;
       }
       _reportData = await _reportService.reportByDay(day, userId);
+    } catch (e) {
+      _reportData = null;
+    }
+
+    _isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> fetchReportByMonth(DateTime month) async {
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      String? userId = await _userService.getID();
+      if (userId == null) {
+        _isLoading = false;
+        notifyListeners();
+        return;
+      }
+      _reportData = await _reportService.reportByMonth(month, userId);
     } catch (e) {
       _reportData = null;
     }

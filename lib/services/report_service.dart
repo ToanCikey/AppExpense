@@ -23,4 +23,28 @@ class ReportService {
       return {"total_income": 0, "total_expense": 0};
     }
   }
+
+  Future<Map<String, dynamic>> reportByMonth(
+    DateTime month,
+    String userId,
+  ) async {
+    DateTime now = DateTime.now();
+
+    if (month.isAfter(now)) {
+      CustomToast.showError("Không thể báo cáo tháng trong tương lai!");
+      return {"total_income": 0, "total_expense": 0};
+    }
+    if (month.year < 2020) {
+      CustomToast.showError("Chỉ hỗ trợ báo cáo từ năm 2020 trở đi.");
+      return {"total_income": 0, "total_expense": 0};
+    }
+
+    try {
+      return await _reportRepository.reportByMonth(month, userId);
+    } catch (e, stackTrace) {
+      CustomToast.showError("Lỗi khi lấy báo cáo tháng");
+      debugPrint(stackTrace.toString());
+      return {"total_income": 0, "total_expense": 0};
+    }
+  }
 }

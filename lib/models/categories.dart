@@ -25,4 +25,9 @@ class Categories {
   Map<String, dynamic> toMap() {
     return {'id': id, 'user_id': user_id, 'name': name, 'type': type.name};
   }
+
+  @override
+  String toString() {
+    return 'Categories(id: $id, user_id: $user_id, name: $name, type: ${type.name})';
+  }
 }

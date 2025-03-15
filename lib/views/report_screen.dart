@@ -23,10 +23,17 @@ class _ReportScreenState extends State<ReportScreen> {
   }
 
   void _fetchReport() {
-    Provider.of<ReportProvider>(
-      context,
-      listen: false,
-    ).fetchReportByDay(selectedDate);
+    if (selectedType == "Ngày") {
+      Provider.of<ReportProvider>(
+        context,
+        listen: false,
+      ).fetchReportByDay(selectedDate);
+    } else {
+      Provider.of<ReportProvider>(
+        context,
+        listen: false,
+      ).fetchReportByMonth(selectedDate);
+    }
   }
 
   @override
@@ -67,7 +74,7 @@ class _ReportScreenState extends State<ReportScreen> {
                   DropdownButton<String>(
                     value: selectedType,
                     items:
-                        ["Ngày", "Tháng", "Năm"]
+                        ["Ngày", "Tháng"]
                             .map(
                               (e) => DropdownMenuItem(
                                 value: e,
@@ -84,6 +91,14 @@ class _ReportScreenState extends State<ReportScreen> {
                     onChanged: (value) {
                       setState(() {
                         selectedType = value!;
+                        if (selectedType == "Tháng") {
+                          selectedDate = DateTime(
+                            selectedDate.year,
+                            selectedDate.month,
+                            1,
+                          );
+                        }
+                        _fetchReport();
                       });
                     },
                     underline: const SizedBox(),
