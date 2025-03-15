@@ -57,7 +57,7 @@ class AuthService {
     String? emailError = validateEmail(email);
     String? passwordError = validatePassword(password);
     if (emailError != null || passwordError != null) {
-      CustomToast.showSuccess(emailError ?? passwordError!);
+      CustomToast.showError(emailError ?? passwordError!);
       return;
     }
     User? user = await _auth.login(email, password);

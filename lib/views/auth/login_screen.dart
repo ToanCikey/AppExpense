@@ -55,16 +55,42 @@ class LoginScreen extends StatelessWidget {
                       },
                     ),
                     const SizedBox(height: 20),
-                    ElevatedButton.icon(
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.black87,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          side: const BorderSide(color: Colors.grey),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal: 16,
+                        ),
+                        elevation: 2,
+                      ),
                       onPressed: () {
                         authProvider.loginWithGoogle(context);
                       },
-                      icon: Image.asset(
-                        'assets/google.png',
-                        height: 24,
-                        width: 24,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/google.png',
+                            height: 24,
+                            width: 24,
+                          ),
+                          const SizedBox(width: 12),
+                          const Text(
+                            "Đăng nhập với Google",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
                       ),
-                      label: const Text("Đăng nhập với Google"),
                     ),
                   ],
                 ),

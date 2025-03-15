@@ -34,15 +34,23 @@ class LoginForm extends StatelessWidget {
           hint: "Nhập mật khẩu",
         ),
         SizedBox(height: 10),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.black,
-            minimumSize: Size(200, 50),
-          ),
-          onPressed: isLoading ? null : onLogin,
-          child: Text(
-            "Đăng Nhập",
-            style: TextStyle(fontSize: 20, color: Colors.white),
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.black,
+              minimumSize: const Size(200, 50),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+                side: BorderSide(color: Colors.grey.shade400),
+              ),
+              elevation: 2,
+            ),
+            onPressed: isLoading ? null : onLogin,
+            child: const Text(
+              "Đăng Nhập",
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            ),
           ),
         ),
         TextButton(

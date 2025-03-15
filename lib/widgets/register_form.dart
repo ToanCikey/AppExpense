@@ -41,15 +41,23 @@ class RegisterForm extends StatelessWidget {
           hint: "Nhập mật khẩu",
         ),
         SizedBox(height: 10),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.blue.shade400,
-            minimumSize: Size(200, 50),
-          ),
-          onPressed: isLoading ? null : onRegister,
-          child: Text(
-            "Đăng Ký",
-            style: TextStyle(fontSize: 20, color: Colors.black),
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blue.shade400,
+              minimumSize: const Size(200, 50),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+                side: BorderSide(color: Colors.blue.shade600),
+              ),
+              elevation: 2,
+            ),
+            onPressed: isLoading ? null : onRegister,
+            child: const Text(
+              "Đăng Ký",
+              style: TextStyle(fontSize: 20, color: Colors.black),
+            ),
           ),
         ),
         TextButton(
